@@ -1,0 +1,50 @@
+<!-- templates/suggested_users.html -->
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container mx-auto my-8 backdrop-blur-sm ">
+        <h2 class="text-3xl font-bold mb-4 dark:bg-gray-200">Suggested Users to Follow</h2>
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for user in suggested_users %}
+                <li class="bg-white rounded-lg overflow-hidden shadow-md">
+                    {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" alt="{{ user.user.username }} profile image"
+                             class="w-full h-32 object-cover">
+                    {% endif %}
+                    <div class="p-4 dark:bg-gray-700">
+                      <a href="{% url 'profile' pk=user.user.id %}"> <h3 class="text-xl font-bold mb-2 ">{{ user.user.username }}</h3></a>
+                        <p class="text-gray-600">{{ user.bio }}</p>
+                        <!-- Add other profile details as needed -->
+                        <div class="mt-4">
+                            {% if user != request.user.profile %}
+                                <form method="post" action="{% url 'profile' pk=user.user.id %}">
+                                    {% csrf_token %}
+                                    {% if user in request.user.profile.follows.all %}
+                                        <button type="submit"
+                                                class="rounded-full bg-gray-600 text-white px-4 py-2 text-sm transition duration-100 hover:bg-blue-700"
+                                                value="Unfollow" name="follow">
+                                            Unfollow
+                                        </button>
+                                    {% else %}
+                                        {% if user in request.user.profile.followed_by.all %}
+                                            <button type="button"
+                                                    class="rounded-full bg-blue-600 text-white px-4 py-2 text-sm cursor-not-allowed">
+                                                Following
+                                            </button>
+                                        {% else %}
+                                            <button type="submit"
+                                                    class="rounded-full bg-blue-600 text-white px-4 py-2 text-sm transition duration-100 hover:bg-blue-700"
+                                                    value="follow" name="follow">
+                                                Follow
+                                            </button>
+                                        {% endif %}
+                                    {% endif %}
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

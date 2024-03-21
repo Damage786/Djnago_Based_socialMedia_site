@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+{% load static %}
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTX-Socio Chat</title>
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.output.css' %}" />
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/tailwind.min.css'>
+<link rel="stylesheet" href="{% static 'assets/js/index.js' %}"/>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<script src="{% static 'assets/js/init-alpine.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Include EmojiArea.js -->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<script src="{% static 'assets/js/init-alpine.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.css" integrity="sha512-0Nyh7Nf4sn+T48aTb6VFkhJe0FzzcOlqqZMahy/rhZ8Ii5Q9ZXG/1CbunUuEbfgxqsQfWXjnErKZosDSHVKQhQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* can be configured in tailwind.config.js */
+    .group:hover .group-hover\:block {
+      display: block;
+    }
+    .hover\:w-64:hover {
+      width: 45%;
+      }
+
+
+    /* NO NEED THIS CSS - just for custom scrollbar which can also be configured in tailwind.config.js*/
+    ::-webkit-scrollbar {
+      width: 2px;
+      height: 2px;
+    }
+    ::-webkit-scrollbar-button {
+      width: 0px;
+      height: 0px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2d3748;
+      border: 0px none #ffffff;
+      border-radius: 50px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2b6cb0;
+    }
+    ::-webkit-scrollbar-thumb:active {
+      background: #000000;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a202c;
+      border: 0px none #ffffff;
+      border-radius: 50px;
+    }
+    ::-webkit-scrollbar-track:hover {
+      background: #666666;
+    }
+    ::-webkit-scrollbar-track:active {
+      background: #333333;
+    }
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+  </style>
+
+ 
+
+<div class="flex h-screen w-full overflow-hidden bg-gray-900 text-gray-200 antialiased">
+  <div class="flex flex-1 flex-col">
+    
+    <main id="hea" class="flex min-h-0 flex-grow flex-row">
+      <section class="group flex w-1/5 flex-none flex-col overflow-auto transition-all duration-300 ease-in-out hover:w-64 md:w-2/5 lg:max-w-sm">
+        <div class="header flex flex-none flex-row items-center justify-between p-4">
+          <div class="relative flex h-16 w-16 flex-shrink-0" style="filter: invert(100%);">
+          <a href="{% url 'home' %}"> <img class="h-full w-full rounded-full object-cover" alt="ravisankarchinnam" src="https://avatars3.githubusercontent.com/u/22351907?s=60" />
+          </div>
+        </a>
+          <p class="text-md hidden font-bold group-hover:block md:block">HTX Messenger</p>
+          <a href="#" class="block hidden h-10 w-10 rounded-full bg-gray-800 p-2 hover:bg-gray-700 group-hover:block md:block">
+            <svg viewBox="0 0 24 24" class="h-full w-full fill-current">
+              <path d="M6.3 12.3l10-10a1 1 0 0 1 1.4 0l4 4a1 1 0 0 1 0 1.4l-10 10a1 1 0 0 1-.7.3H7a1 1 0 0 1-1-1v-4a1 1 0 0 1 .3-.7zM8 16h2.59l9-9L17 4.41l-9 9V16zm10-2a1 1 0 0 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h6a1 1 0 0 1 0 2H4v14h14v-6z" />
+            </svg>
+          </a>
+        </div>
+        <div class="search-box flex-none p-4">
+          <form onsubmit="">
+            <div class="relative">
+              <label>
+                <input class="w-full rounded-full border border-gray-800 bg-gray-800 py-2 pl-10 pr-6 text-gray-200 transition duration-300 ease-in focus:border-gray-700 focus:bg-gray-900 focus:shadow-md focus:outline-none" type="text" value="" placeholder="Search Messenger" />
+                <span class="absolute left-0 top-0 ml-3 mt-2 inline-block">
+                  <svg viewBox="0 0 24 24" class="h-6 w-6">
+                    <path fill="#bbb" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                  </svg>
+                </span>
+              </label>
+            </div>
+          </form>
+        </div>
+       
+        {% for follower in followers %}
+        <div class="contacts flex-1 overflow-y-scroll p-2">
+          <div class="relative flex items-center justify-between rounded-lg p-3 hover:bg-gray-800">
+            <div class="relative flex h-16 w-16 flex-shrink-0">
+              {% if follower.user.profile.profile_image and follower.user.profile.profile_image.url %}
+              <img class="h-full w-full rounded-full object-cover shadow-md" src="{{ follower.user.profile.profile_image.url }}" alt="" />
+              {% else %}
+              <img class="h-full w-full rounded-full object-cover shadow-md" src="{% static 'https://assetsio.reedpopcdn.com/callofduty-ghost.jpg?width=1200&height=1200&fit=crop&quality=100&format=png&enable=upscale&auto=webp' %}" alt="Default Image" />
+              {% endif %}
+            </div>
+            <div class="ml-4 mr-6 hidden min-w-0 flex-auto group-hover:block md:block">
+              <p> <a href="{% url 'personal_chat' receiver_id=follower.user.id %}" class="">
+                {{ follower.user.username |capfirst }}
+            </a></p>
+              <div class="flex items-center text-sm text-gray-600">
+                <div class="min-w-0">
+                  <p class="truncate">Ok, see you at the subway in a bit.</p>
+                </div>
+                <p class="whitespace-no-wrap ml-2">Just now</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="relative flex items-center justify-between rounded-lg p-3 hover:bg-gray-800"></div>
+        </div>
+      </section>
+      <section class="flex flex-auto flex-col border-l border-gray-800">
+        <div class="chat-header flex flex-none flex-row items-center justify-between px-6 py-4 shadow">
+          <div class="flex">
+            <div class="relative mr-4 flex h-12 w-12 flex-shrink-0">
+              <img class="h-full w-full rounded-full object-cover shadow-md" src="{{ receiver.profile.profile_image.url }}" alt="" />
+            </div>
+            <div class="text-sm">
+              <p class="font-bold">{{ receiver.username |capfirst }}</p>
+              <p>Active 1h ago</p>
+            </div>
+          </div>
+
+          <div class="flex">
+            <a href="#" class="block h-10 w-10 rounded-full bg-gray-800 p-2 hover:bg-gray-700">
+              <svg viewBox="0 0 20 20" class="h-full w-full fill-current text-blue-500">
+                <path d="M11.1735916,16.8264084 C7.57463481,15.3079672 4.69203285,12.4253652 3.17359164,8.82640836 L5.29408795,6.70591205 C5.68612671,6.31387329 6,5.55641359 6,5.00922203 L6,0.990777969 C6,0.45097518 5.55237094,3.33066907e-16 5.00019251,3.33066907e-16 L1.65110039,3.33066907e-16 L1.00214643,8.96910337e-16 C0.448676237,1.13735153e-15 -1.05725384e-09,0.445916468 -7.33736e-10,1.00108627 C-7.33736e-10,1.00108627 -3.44283713e-14,1.97634814 -3.44283713e-14,3 C-3.44283713e-14,12.3888407 7.61115925,20 17,20 C18.0236519,20 18.9989137,20 18.9989137,20 C19.5517984,20 20,19.5565264 20,18.9978536 L20,18.3488996 L20,14.9998075 C20,14.4476291 19.5490248,14 19.009222,14 L14.990778,14 C14.4435864,14 13.6861267,14.3138733 13.2940879,14.7059121 L11.1735916,16.8264084 Z" />
+              </svg>
+            </a>
+            <a href="#" class="ml-4 block h-10 w-10 rounded-full bg-gray-800 p-2 hover:bg-gray-700">
+              <svg viewBox="0 0 20 20" class="h-full w-full fill-current text-blue-500">
+                <path d="M0,3.99406028 C0,2.8927712 0.894513756,2 1.99406028,2 L14.0059397,2 C15.1072288,2 16,2.89451376 16,3.99406028 L16,16.0059397 C16,17.1072288 15.1054862,18 14.0059397,18 L1.99406028,18 C0.892771196,18 0,17.1054862 0,16.0059397 L0,3.99406028 Z M8,14 C10.209139,14 12,12.209139 12,10 C12,7.790861 10.209139,6 8,6 C5.790861,6 4,7.790861 4,10 C4,12.209139 5.790861,14 8,14 Z M8,12 C9.1045695,12 10,11.1045695 10,10 C10,8.8954305 9.1045695,8 8,8 C6.8954305,8 6,8.8954305 6,10 C6,11.1045695 6.8954305,12 8,12 Z M16,7 L20,3 L20,17 L16,13 L16,7 Z" />
+              </svg>
+            </a>
+            <a href="#" class="ml-4 block h-10 w-10 rounded-full bg-gray-800 p-2 hover:bg-gray-700">
+              <svg viewBox="0 0 20 20" class="h-full w-full fill-current text-blue-500">
+                <path d="M2.92893219,17.0710678 C6.83417511,20.9763107 13.1658249,20.9763107 17.0710678,17.0710678 C20.9763107,13.1658249 20.9763107,6.83417511 17.0710678,2.92893219 C13.1658249,-0.976310729 6.83417511,-0.976310729 2.92893219,2.92893219 C-0.976310729,6.83417511 -0.976310729,13.1658249 2.92893219,17.0710678 Z M9,11 L9,10.5 L9,9 L11,9 L11,15 L9,15 L9,11 Z M9,5 L11,5 L11,7 L9,7 L9,5 Z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+
+
+
+
+    <!-- Add this block inside your HTML file -->
+<!-- <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen "> -->
+  <div >
+      <div class="relative flex items-center space-x-4">
+          
+          <div class="flex flex-col leading-tight">
+              <div class="text-2xl mt-1 flex items-center">
+                 
+              </div>
+          </div>
+      </div>
+
+
+<!-- Add this block inside your HTML file -->
+<!-- Add this block inside your HTML file -->
+<!-- Add this block inside your HTML file -->
+<!-- <script>
+  function updateProfileStatus() {
+      const userId = '{{ receiver.id }}';
+
+      // Check if the user is authenticated before making the request
+      if (userId) {
+          fetch(`/profile/${userId}/update/`)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  console.log('Received data:', data);
+
+                  if (data.is_online) {
+                      document.getElementById('online-status').innerHTML = 'Online';
+                      document.getElementById('online-status').style.color = 'green';
+                  } else {
+                      document.getElementById('online-status').innerHTML = 'Offline';
+                      document.getElementById('online-status').style.color = 'black';
+                  }
+              })
+              .catch(error => console.error('Error fetching profile status:', error));
+      } else {
+          // Handle the case where the user is not authenticated (logged out)
+          document.getElementById('online-status').innerHTML = 'Offline';
+          document.getElementById('online-status').style.color = 'black';
+      }
+  }
+
+  // Update every 10 seconds
+  setInterval(updateProfileStatus, 10000);  // 10 seconds
+
+  // Update immediately on page load
+  updateProfileStatus();
+</script> -->
+
+
+
+       <div class="flex items-center space-x-2">
+        
+          
+        
+        
+       </div>
+    </div>
+                <div id="chat-box" class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch col-span-7">
+                    <!-- Display messages here using JavaScript or Django template tags -->
+                    {% for message in messages %}
+                    <!-- Assuming you have a Message instance called 'message' -->
+
+
+                        <div class="mb-2">
+                            {% if message.sender.username == request.user.username %}
+                                <!-- Sender's message box on the right -->
+                                <div class="flex items-end justify-end">
+                                    <div class="order-1 mx-2 flex max-w-xs flex-col items-end space-y-2 text-xs">
+                                      <div><span class="inline-block rounded-lg rounded-br-none bg-blue-600 px-4 py-2 text-white">{{ message.content }}</span></div>
+                                    </div>
+                                    
+                                    <img src="{{ user.profile.profile_image.url }}" alt="" srcset="" class="order-2 h-6 w-6 rounded-full">
+
+                                  </div>
+                                
+                            {% else %}
+                            
+                                <!-- Receiver's message box on the left -->
+                                <div class="flex items-end">
+                                    <div class="order-2 mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs">
+                                      <div><span class="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600">{{ message.content }}</span></div>
+                                    </div>
+                                    <!-- <img src="{{ message.profile_image.url }}" alt="" srcset=""> -->
+                                    <img src="{{receiver.profile.profile_image.url }}" alt="" srcset="" class="order-2 h-6 w-6 rounded-full">
+                                    <!-- <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="My profile" class="order-1 h-6 w-6 rounded-full" /> -->
+                                  </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <form id="personal-message-form" method="post" action="{% url 'send_personal_message' receiver_id=receiver.id %}">
+                    {% csrf_token %}
+                 
+                    <div class="border-t-1 border-gray-200 px-4 pt-4 mb-6 sm:mb-0 ">
+                        <div class="relative flex">
+                           <span class="absolute inset-y-0 flex items-center">
+                             
+                           </span>
+                           <input id="myTextarea" type="text" name="content" required placeholder="Write your message!" class="w-full  rounded-full border border-gray-800 bg-gray-800 py-2 pl-3 pr-10 text-gray-200 transition duration-300 ease-in focus:border-gray-700 focus:bg-gray-900 focus:shadow-md focus:outline-none">
+                           <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
+                              <button type="button"   @click="openModal" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                                 </svg>
+                              </button>
+                              <div
+                              x-show="isModalOpen"
+                              x-transition:enter="transition ease-out duration-150"
+                              x-transition:enter-start="opacity-0"
+                              x-transition:enter-end="opacity-100"
+                              x-transition:leave="transition ease-in duration-150"
+                              x-transition:leave-start="opacity-100"
+                              x-transition:leave-end="opacity-0"
+                              class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+                            >
+                              <!-- Modal -->
+                              <div
+                                x-show="isModalOpen"
+                                x-transition:enter="transition ease-out duration-150"
+                                x-transition:enter-start="opacity-0 transform translate-y-1/2"
+                                x-transition:enter-end="opacity-100"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100"
+                                x-transition:leave-end="opacity-0  transform translate-y-1/2"
+                                @click.away="closeModal"
+                                @keydown.escape="closeModal"
+                                class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+                                role="dialog"
+                                id="modal"
+                              >
+                                <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+                                <header class="flex justify-end">
+                                  <button
+                                    class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
+                                    aria-label="close"
+                                    @click="closeModal"
+                                  >
+                                    <svg
+                                      class="w-4 h-4"
+                                      fill="currentColor"
+                                      viewBox="0 0 20 20"
+                                      role="img"
+                                      aria-hidden="true"
+                                    >
+                                      <path
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"
+                                        fill-rule="evenodd"
+                                      ></path>
+                                    </svg>
+                                  </button>
+                                </header>
+                                <!-- Modal body -->
+                                <div class="mt-4 mb-6">
+                                  <!-- Modal title -->
+                                  <p
+                                    class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300"
+                                  >
+                                    Modal header
+                                  </p>
+                                  <!-- Modal description -->
+                                  <input type="file" id="fileInput" @change="handleFileChange" class="mt-4">  
+                                    
+                                
+                                </div>
+                                <footer
+                                  class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800"
+                                >
+                                  <button
+                                    @click="closeModal"
+                                    class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray"
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button
+                                    class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                                  >
+                                    Accept
+                                  </button>
+                                </footer>
+                              </div>
+                            </div>
+                              <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                 </svg>
+                              </button>
+                              <button id="emojiButton" type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </button>
+                            
+                            <style>
+                           .emojionearea .emojionearea-button>div {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    right: 106px;
+}
+                            </style>
+                              <button  id="send-button"  type="button" class="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
+                                 <span class="font-bold">Send</span>
+                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 ml-2 transform rotate-90">
+                                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                                 </svg>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+  // Initialize EmojiArea.js on the textarea
+  $(document).ready(function () {
+    $("#myTextarea").emojioneArea();
+
+    // Use the correct ID selector for the button
+    $("#emojiButton").click(function () {
+      $("#myTextarea").emojioneArea();
+    });
+  });
+</script>
+
+
+<script>
+    const currentUser = "{{ request.user.username }}";
+    console.log("Current User:", currentUser);
+</script>
+<script>
+function updatePersonalChat(messages) {
+    const chatBox = document.getElementById('chat-box');
+    chatBox.innerHTML = ''; // Clear previous messages
+
+    messages.forEach(message => {
+        const div = document.createElement('div');
+        const isSender = message.sender === currentUser;
+
+        div.innerHTML = `
+            <div class="flex ${isSender ?  'items-end justify-end':'items-end' }">
+                <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 ${isSender ? 'order-2 items-start' : 'order-1 items-end'}">
+                    <div><span class="px-4 py-2 rounded-lg inline-block ${isSender ? 'rounded-br-none bg-blue-600 text-white':'rounded-bl-none bg-gray-300 text-gray-600' }">${message.content}</span></div>
+                </div>
+                <img src="${message.sender === currentUser ? '{{ user.profile.profile_image.url }}' : '{{receiver.profile.profile_image.url }}'}" alt="My profile" class="w-6 h-6 rounded-full ${isSender ? 'order-1' : 'order-2'}">
+           
+                </div>
+        `;
+
+        chatBox.appendChild(div);
+    });
+    scrollToBottom();
+}
+
+    
+    function sendMessage() {
+        const chatBox = document.getElementById('chat-box');
+    chatBox.innerHTML = '';
+        const form = document.getElementById('personal-message-form');
+        const formData = new FormData(form);
+    
+        console.log('Sending message:', formData);
+    
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response from server:', data);
+    
+            if (data.success) {
+                updatePersonalChat(data.messages);
+                form.reset(); // Clear the textarea
+                scrollToBottom();
+            } else {
+                console.error('Failed to send message. Server response:', data);
+                // You can handle errors here, e.g., by updating UI or logging to console
+            }
+        })
+        .catch(error => {
+            console.error('Error sending message:', error);
+            // You can handle errors here, e.g., by updating UI or logging to console
+        });
+    }
+
+    // Scroll the chat box to the bottom
+    function scrollToBottom() {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    
+    // Event listener for the send button
+    document.getElementById('send-button').addEventListener('click', sendMessage);
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage();
+        }
+    }
+
+    // Event listener for the text input
+    document.querySelector('input[name="content"]').addEventListener('keydown', handleKeyPress);
+</script>
+
+<script>
+    var getPersonalMessagesUrl = "{% url 'get_personal_messages' receiver_id=receiver.id %}";
+
+    // Periodically update the chat
+    setInterval(() => {
+        fetch(getPersonalMessagesUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updatePersonalChat(data.messages);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching messages:', error);
+                // You can handle errors here, e.g., by updating UI or logging to console
+            });
+    }, 1000);
+
+    
+</script>
+<style>
+
+    
+    .scrollbar-w-2::-webkit-scrollbar {
+      width: 0.25rem;
+      height: 0.25rem;
+    }
+    
+    .scrollbar-track-blue-lighter::-webkit-scrollbar-track {
+      --bg-opacity: 1;
+      background-color: #f7fafc;
+      background-color: rgba(247, 250, 252, var(--bg-opacity));
+    }
+    
+    .scrollbar-thumb-blue::-webkit-scrollbar-thumb {
+      --bg-opacity: 1;
+      background-color: #edf2f7;
+      background-color: rgba(237, 242, 247, var(--bg-opacity));
+    }
+    
+    .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+      border-radius: 0.25rem;
+    }
+    </style>
+    
+    <!-- <script>
+        const el = document.getElementById('messages')
+        el.scrollTop = el.scrollHeight
+    </script> -->
+ <!-- fix scroll button  -->
+    
+</body>
+</html>
