@@ -1,0 +1,73 @@
+<!-- Other users' stories -->
+
+{% extends 'base.html' %}
+
+{% block body %}  
+<!-- Owl Carousel CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+<!-- Tailwind CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+
+
+<div class="max-w-2xl mx-auto p-8">
+    <div class="owl-carousel owl-theme">
+        {% for story in other_users_stories %}
+            <div class="item">
+                <div class="bg-gradient-to-tr from-yellow-400 to-purple-600 p-1 rounded-full">
+                    <a href="#" class="block bg-white p-1 rounded-full transform transition hover:-rotate-6">
+                        {% if story.image %}
+                            <img class="w-24 h-24 rounded-full" src="{{ story.image.url }}" alt="cute kitty">
+                        {% endif %}
+                    </a>
+                </div>
+                <a href="#">{{ story }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Owl Carousel JS -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('.owl-carousel').owlCarousel({
+            loop:true,
+            margin:10,
+            nav:true,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:3
+                },
+                1000:{
+                    items:5
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+<!-- Current user's stories -->
+<h2>Your Stories</h2>
+{% for story in current_user_stories %}
+    <div>
+        <p>{{ story }}</p>
+        {% if story.image %}
+            <img src="{{ story.image.url }}" alt="Story Image">
+        {% endif %}
+        <!-- Add other fields as needed -->
+    </div>
+{% endfor %}
+
+
+
+{% endblock %}
