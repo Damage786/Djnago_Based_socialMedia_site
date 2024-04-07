@@ -1,4 +1,3 @@
-import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -15,11 +14,8 @@ from django.utils import timezone
 import emoji
 from datetime import timedelta
 
-from socialmedia import settings
 
 
-def default_profile_image_path():
-    return os.path.join(settings.STATIC_ROOT, 'images', 'static/image.png')
 
 class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -69,6 +65,7 @@ def create_profile(sender, instance, created, **kwargs):
         user_profile.save()
 
 post_save.connect(create_profile, sender=User)
+
 
         
 

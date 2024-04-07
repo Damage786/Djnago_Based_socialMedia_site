@@ -331,8 +331,12 @@ def post_like(request, pk):
             post.likes.add(request.user)
             liked = True
 
+        # Update cache for likes count
+        cache_key = f'post_{post.id}_likes_count'
+        cache.set(cache_key, post.likes.count())
+
         # Return JSON response with updated like status and count
-        likes_count = post.likes.count()
+        likes_count = cache.get(cache_key)
         data = {
             'liked': liked,
             'likes_count': likes_count,
@@ -341,7 +345,6 @@ def post_like(request, pk):
     else:
         # If user is not authenticated, return a 403 Forbidden status
         return JsonResponse({'error': 'User not authenticated'}, status=403)
-
 
 
 
