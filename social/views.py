@@ -47,11 +47,18 @@ from django.db.models import Count
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-
+from .forms import EmailUpdateForm, UsernameUpdateForm, AccountDeletionForm
 from django.utils.timesince import timesince
 from datetime import timedelta
 import json
 from django.utils import timezone
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 @login_required
 def home(request):
@@ -106,6 +113,17 @@ def home(request):
         if request.user.is_authenticated:
             story.view_story(request.user)
 
+    # Fetching posts and checking if the user is the owner of the post for deletion
+    if request.method == 'POST' and 'delete_post' in request.POST:
+        post_id = request.POST.get('post_id')
+        post_to_delete = get_object_or_404(Post, pk=post_id)
+        if post_to_delete.author == request.user:
+            post_to_delete.delete()
+            messages.success(request, 'Post deleted successfully.')
+        else:
+            messages.error(request, 'You are not authorized to delete this post.')
+
+    # Fetching notifications for the logged-in user
     notifications = Notification.objects.filter(recipient=request.user, is_read=False) \
                     .values('message__sender__username', 'message__sender__id', 'id') \
                     .annotate(message_count=Count('message'))
@@ -115,9 +133,9 @@ def home(request):
         'stories': json.dumps(stories),
         'form': form,
         'notifications': notifications,
-    }    
+    }
 
-    return render(request, 'home.html', context,)
+    return render(request, 'home.html', context)
 
 
 
@@ -331,8 +349,12 @@ def post_like(request, pk):
             post.likes.add(request.user)
             liked = True
 
+        # Update cache for likes count
+        cache_key = f'post_{post.id}_likes_count'
+        cache.set(cache_key, post.likes.count())
+
         # Return JSON response with updated like status and count
-        likes_count = post.likes.count()
+        likes_count = cache.get(cache_key)
         data = {
             'liked': liked,
             'likes_count': likes_count,
@@ -341,7 +363,6 @@ def post_like(request, pk):
     else:
         # If user is not authenticated, return a 403 Forbidden status
         return JsonResponse({'error': 'User not authenticated'}, status=403)
-
 
 
 
@@ -638,3 +659,94 @@ def suggested_users(request):
     profile = request.user.profile
     suggested_users = profile.get_suggested_users()
     return render(request, 'suggestion/suggestions_page.html', {'suggested_users': suggested_users})
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'registration/password_reset_form.html'
+    email_template_name = 'registration/password_reset_email.html'
+    success_url = '/password-reset/done/'
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'registration/password_reset_done.html'
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'registration/password_reset_confirm.html'
+    success_url = reverse_lazy('login')  # Redirect to login page after password reset
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'registration/password_reset_complete.html'
+
+def password_reset(request):
+    # Assuming you're receiving a POST request with the user's email address
+    if request.method == 'POST':
+        email = request.POST.get('email')  # Assuming the email is sent via a form
+        try:
+            user = User.objects.get(email=email)
+            # Generate uidb64 and token for the user
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+
+            # Pass uidb64 and token to the password reset email template
+            context = {
+                'uidb64': uidb64,
+                'token': token,
+                # Additional context data...
+            }
+
+            # Render the template and send the email
+            # Your email sending logic...
+
+            # Redirect to password reset done view
+            return HttpResponseRedirect(reverse('password_reset_done'))
+
+        except User.DoesNotExist:
+            # Handle case where user with the provided email does not exist
+            pass
+
+    # Handle GET request or any other cases
+    # Your existing password reset logic...
+
+
+
+def settings(request):
+    if request.method == 'POST':
+        email_form = EmailUpdateForm(request.POST, instance=request.user)
+        username_form = UsernameUpdateForm(request.POST, instance=request.user)
+        password_form = PasswordChangeForm(user=request.user, data=request.POST)
+        deletion_form = AccountDeletionForm(request.POST)
+
+        if email_form.is_valid():
+            email_form.save()
+            messages.success(request, 'Email updated successfully.')
+            return redirect('settings')
+
+        if username_form.is_valid():
+            username_form.save()
+            messages.success(request, 'Username updated successfully.')
+            return redirect('settings')
+
+        if password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)
+            messages.success(request, 'Password updated successfully.')
+            return redirect('settings')
+
+        if deletion_form.is_valid() and deletion_form.cleaned_data.get('confirm'):
+            # Delete account logic here
+            # Remember to log out the user after account deletion
+            request.user.delete()
+            messages.success(request, 'Your account has been deleted.')
+            return redirect('login')  # Redirect to home page after deletion
+
+    else:
+        email_form = EmailUpdateForm(instance=request.user)
+        username_form = UsernameUpdateForm(instance=request.user)
+        password_form = PasswordChangeForm(user=request.user)
+        deletion_form = AccountDeletionForm()
+
+    context = {
+        'email_form': email_form,
+        'username_form': username_form,
+        'password_form': password_form,
+        'deletion_form': deletion_form,
+    }
+    return render(request, 'settings/settings.html', context)

@@ -15,15 +15,9 @@
           <a class=" bg-white block rounded-full p-1 hover:-rotate-6 transform transition" href="#" onclick="my_modal_1.showModal()">
     
             {% if user.profile.profile_image %}
-            <img class="h-20 w-20 rounded-full"
+            <img class="h-24 w-24 rounded-full"
                  src="{{ user.profile.profile_image.url }}"
                  alt="{{ user.username }}" aria-hidden="true" />
-
-            {% else %}
-            <img class="h-20 w-20 rounded-full"
-            src="{{ 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fsignalvnoise.com%2Fposts%2F3104-behind-the-scenes-reinventing-our-default-profile-pictures&psig=AOvVaw28PE9own3Is6mKDYM1fQSW&ust=1708697382740000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCMDX0Z2Rv4QDFQAAAAAdAAAAABAQ'}}"
-            alt="{{ user.username }}" aria-hidden="true" />
-
        {%endif%}
             
           </a>

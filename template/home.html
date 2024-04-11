@@ -18,11 +18,6 @@
             {% if user.profile.profile_image %}
             <img class="h-20 w-20 rounded-full" src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}"
               aria-hidden="true" />
-
-            {% else %}
-            <img class="h-20 w-20 rounded-full" src="{{" https://www.bytewebster.com/img/logo.png"}}"
-              alt="{{ user.username }}" aria-hidden="true" />
-
             {%endif%}
 
           </a>
@@ -315,8 +310,6 @@
 
 </div>
 {% for post in posts %}
-
-
 <a href="{% url 'profile' pk=post.author.id %}">
   <div class="card shadow-lg">
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -334,8 +327,13 @@
 
         <p class="dark:text-gray-800">{{ post.author.username |capfirst }}</p>
 
+       <span class="ml-auto text-gray-500 dark:text-gray-300 delete-post" data-post-id="{{ post.id }}" style="cursor: pointer;">:</span>
+       
+
       </div>
 </a>
+
+
 
 
 
@@ -354,13 +352,41 @@
 
 
 <!-- Like, Share and Comment Buttons -->
+<style>
+  /* CSS styles */
+  .like-button {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
 
+  .like-button:hover {
+    color: #ff6347;
+    /* Change color on hover */
+  }
+
+  .like-icon {
+    margin-right: 5px;
+    /* Adjust the spacing between the icon and text */
+  }
+
+  .liked {
+    color: #ff6347;
+    /* Change color when button is liked */
+  }
+</style>
 
 <div class="flex justify-between mt-4">
 
   <!-- Like Button -->
   <!-- Like Button -->
-  <a href="{% url 'post_like' post.id %}" class="like-button">Like {{ post.num_of_likes }}</a>
+  <a href="{% url 'post_like' post.id %}" class="like-button">
+    <span class="like-icon"></span> <!-- Heart icon -->
+    Like <span class="like-count">{{ post.num_of_likes }}</span>
+  </a>
 
 
 
@@ -541,11 +567,5 @@
   });
 
 </script>
-
-
-
-
-
-
 
 {% endblock body %}

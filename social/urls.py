@@ -1,6 +1,7 @@
 from django.urls import path,include
 from. import views
 from .views import send_message, get_messages
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -34,6 +35,11 @@ urlpatterns = [
     path('get_messages/<int:receiver_id>/', views.get_messages, name='get_messages'),
     path('delete_notification/<int:notification_id>/', views.delete_notification, name='delete_notification'),
     path('suggested-users/', views.suggested_users, name='suggested_users'),
+    path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('settings/', views.settings, name='settings'),
 
 
 
