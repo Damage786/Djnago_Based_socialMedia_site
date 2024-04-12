@@ -122,6 +122,7 @@ def home(request):
             messages.success(request, 'Post deleted successfully.')
         else:
             messages.error(request, 'You are not authorized to delete this post.')
+        return redirect('home')
 
     # Fetching notifications for the logged-in user
     notifications = Notification.objects.filter(recipient=request.user, is_read=False) \
