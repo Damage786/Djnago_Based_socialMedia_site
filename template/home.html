@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<div id="refresh-content">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 <div class="grid grid-cols-10  p-4  justify-center dark:bg-gray-800">
   <div class="col-span-1 bg-white-300  dark:bg-gray-800"> <!-- 10% width -->
-
-
-
-
 
     <ul class="flex space-x-6 ">
       <li class="flex flex-col items-center space-y-1 relative">
@@ -332,12 +329,13 @@
           style="cursor: pointer;">:</span> -->
 
          <!-- HTML button to trigger the modal -->
+         {% if post.author == request.user %}
 <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class=" dark:bg-green ml-auto text-gray-500 dark:text-gray-300 delete-post" data-post-id="{{ post.id }}" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
     <path d="M0 0h24v24H0z" fill="none"/>
     <path d="M18 4h-2.5l-1-1h-5l-1 1H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2h12.02C19.1 20 20 19.1 20 18V6c0-1.1-.9-2-2-2zm-8-2h4l.71.71H9.29L10 2zm5 16H7v-1h10v1zm0-3H7v-8h10v8z" fill="red"/>
   </svg>
-  
+  {% endif %}
   
 </button>
 
@@ -657,6 +655,14 @@ $('button[data-modal-hide="popup-modal"]').click(function() {
     });
   });
 
+</script>
+
+</div>
+
+<script>
+   setInterval(function() {
+    location.reload();
+  }, 60000);
 </script>
 
 {% endblock body %}
