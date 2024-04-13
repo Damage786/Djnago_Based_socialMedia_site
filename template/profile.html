@@ -10,7 +10,7 @@
       <div class="md:w-2/12 md:ml-16">
         <!-- profile image -->
         {% if profile.profile_image %}
-        <img class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-full border-2 border-pink-600 p-1"
+        <img class="w-32 h-32 md:w-40 md:h-32 object-cover rounded-full border-2 border-pink-600 "
           src="{{ profile.profile_image.url }}" alt="{{ profile.user.username }}">
         {% else %}
         <img class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-full border-2 border-pink-600 p-1"
